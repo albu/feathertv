@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_midnight"
+    android:paddingStart="@dimen/screen_padding_horizontal"
+    android:paddingTop="@dimen/screen_padding_vertical"
+    android:paddingEnd="@dimen/screen_padding_horizontal"
+    android:paddingBottom="@dimen/screen_padding_vertical">
+
+    <!-- Top Header Bar -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextClock
+                android:id="@+id/textClockTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="hh:mm a"
+                android:format24Hour="HH:mm"
+                android:textColor="@color/text_primary"
+                android:textSize="36sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextClock
+                android:id="@+id/textClockDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="EEEE, MMMM d"
+                android:format24Hour="EEEE, d MMMM"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Header quick actions: Wi-Fi, Android Settings, Launcher Settings -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/btnSearch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_header_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/btn_search">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_search" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btnSettings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_header_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/btn_settings">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_grid" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btnWifi"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_header_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/btn_wifi">
+
+                <ImageView
+                    android:id="@+id/ivWifiIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_wifi" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btnSystemSettings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_header_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/btn_system_settings">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_settings" />
+            </FrameLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Scrollable Content Layout -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Section: All Applications -->
+            <TextView
+                android:id="@+id/tvAllAppsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/title_all_apps"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAllApps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="32dp" />
+
+            <TextView
+                android:id="@+id/tvEmptyState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="48dp"
+                android:text="@string/no_apps_found"
+                android:textColor="@color/text_muted"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

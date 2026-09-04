@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Slide-in-from-right window animation for the leanback settings side panel. -->
+    <style name="SettingsPanelAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <!-- Inline radio row under the Grid Columns row of the settings side panel. -->
+    <style name="SettingsColumnOption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:minHeight">52dp</item>
+        <item name="android:background">@drawable/bg_panel_row</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <!-- Start padding aligns the label with the parent row's title (icon slot + gap) -->
+        <item name="android:paddingStart">64dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
+    <style name="SettingsColumnOptionLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="SettingsColumnOptionCheck">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:importantForAccessibility">no</item>
+        <item name="android:src">@drawable/ic_check</item>
+    </style>
+
+    <!-- Compact filter chip for Search & Discover sidebar -->
+    <style name="SearchChip">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/bg_search_chip</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+</resources>

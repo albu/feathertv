@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FeatherTV</string>
+    <string name="title_all_apps">All Apps</string>
+    <string name="btn_settings">Launcher Settings</string>
+    <string name="btn_wifi">Wi-Fi Settings</string>
+    <string name="wifi_connected">Wi-Fi connected</string>
+    <string name="wifi_disconnected">Wi-Fi disconnected</string>
+    <string name="btn_system_settings">Android Settings</string>
+    <string name="optimize_done">Memory optimized: %d background apps stopped</string>
+    <string name="move_hint">Pick a spot with D-pad · OK to drop · Back to cancel</string>
+    <string name="settings_optimize_memory">Optimize Memory</string>
+    <string name="settings_optimize_memory_subtitle">Stop idle media apps in the background</string>
+    <string name="dialog_hide">Hide App</string>
+    <string name="dialog_unhide">Unhide App</string>
+    <string name="dialog_app_info">App Info</string>
+    <string name="dialog_uninstall">Uninstall</string>
+    <string name="settings_title">Launcher Settings</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_apps">Apps</string>
+    <string name="settings_columns">Grid Columns</string>
+    <string name="settings_columns_value">%d columns</string>
+    <string name="settings_columns_4">4 columns</string>
+    <string name="settings_columns_5">5 columns</string>
+    <string name="settings_columns_6">6 columns</string>
+    <string name="settings_columns_7">7 columns</string>
+    <string name="settings_show_hidden">Show Hidden Apps</string>
+    <string name="settings_hidden_count">%d hidden</string>
+    <string name="settings_hidden_none">Nothing hidden</string>
+    <string name="settings_manage_apps">Manage Apps</string>
+    <string name="settings_manage_apps_subtitle">Hide, info, or uninstall apps</string>
+    <string name="app_list_title">Apps</string>
+    <string name="app_list_empty">No apps found.</string>
+    <string name="no_apps_found">No installed applications found.</string>
+
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search movies &amp; TV shows</string>
+    <string name="search_empty">Type to search movies and TV shows</string>
+    <string name="search_searching">Searching…</string>
+    <string name="search_no_results">No results found</string>
+    <string name="search_not_available">Not available on your subscriptions</string>
+    <string name="search_filter_included">Only included in my subscriptions</string>
+    <string name="search_scope_active">Active Subscriptions</string>
+    <string name="search_scope_all">Include Other Subs</string>
+    <string name="search_section_discover">DISCOVER &amp; GENRES</string>
+    <string name="search_sort_popular">Popular</string>
+    <string name="search_sort_top">Top Rated</string>
+    <string name="search_sort_new">New</string>
+    <string name="search_type_movies">Movies</string>
+    <string name="search_type_tv">TV Shows</string>
+    <string name="search_genre_scifi">Sci-Fi</string>
+    <string name="search_genre_action">Action</string>
+    <string name="search_genre_comedy">Comedy</string>
+    <string name="search_genre_drama">Drama</string>
+    <string name="search_genre_thriller">Thriller</string>
+    <string name="search_genre_animation">Animation</string>
+    <string name="search_genre_horror">Horror</string>
+    <string name="search_genre_doc">Doc</string>
+    <string name="search_genre_crime">Crime</string>
+    <string name="search_checking_availability">Checking subscription availability…</string>
+    <string name="search_no_included_results">No titles included in your subscriptions found</string>
+    <string name="search_load_more">Load more results</string>
+    <string name="search_loading_more">Loading more…</string>
+    <string name="btn_search">Search movies &amp; TV</string>
+
+    <string name="settings_section_search">Search</string>
+    <string name="settings_subscriptions">Active Subscriptions</string>
+    <string name="settings_subscriptions_none">None active</string>
+    <string name="settings_subscriptions_all">All active</string>
+    <string name="settings_subscriptions_count">%d active</string>
+    <string name="settings_region">Region</string>
+    <string name="settings_tmdb_key">TMDB API key</string>
+    <string name="settings_tmdb_configured">Configured</string>
+    <string name="settings_tmdb_missing">Not set</string>
+    <string name="settings_tmdb_hint">Key is compiled in — edit secrets.properties to change</string>
+
+    <string name="search_voice">Voice search</string>
+    <string name="search_voice_unavailable">Voice search is not available on this TV</string>
+    <string name="search_watch_on">Watch on</string>
+    <string name="search_search_on">Search on</string>
+    <string name="search_rent_buy">Rent/Buy</string>
+    <string name="search_loading">Loading…</string>
+    <string name="search_no_overview">No description available.</string>
+    <string name="search_watch_options">Watch Options</string>
+    <string name="search_tag_included">Included</string>
+    <string name="search_tag_search">Search</string>
+    <string name="search_tag_rent">Rent</string>
+    <string name="search_tag_buy">Buy</string>
+    <string name="search_tag_rent_buy">Rent/Buy</string>
+
+    <!-- WiZ TV Backlight & Lighting Settings -->
+    <string name="settings_section_lighting">Lighting</string>
+    <string name="settings_wiz_power">TV Backlight</string>
+    <string name="settings_wiz_status_connected">Connected (%s)</string>
+    <string name="settings_wiz_status_searching">Searching (%s)</string>
+    <string name="settings_wiz_status_disabled">Disabled</string>
+    <string name="settings_wiz_streaming">Streaming Mode</string>
+    <string name="settings_wiz_gaming">Xbox / Gaming Mode</string>
+    <string name="settings_wiz_brightness">Brightness Scale</string>
+    <string name="settings_wiz_app_colors">App Focus Colors</string>
+    <string name="settings_wiz_app_colors_enabled">Enabled (D-pad palette)</string>
+    <string name="settings_wiz_app_colors_disabled">Disabled</string>
+    <string name="settings_wiz_auto_power">Auto Power (TV &amp; Xbox)</string>
+    <string name="settings_wiz_auto_power_enabled">Enabled (CEC sync)</string>
+    <string name="settings_wiz_auto_power_disabled">Disabled</string>
+
+    <!-- Streaming Presets -->
+    <string name="settings_wiz_stream_circadian">Solar Circadian (Sun Adaptive)</string>
+    <string name="settings_wiz_stream_cinema">Cinema Warm (2700K)</string>
+    <string name="settings_wiz_stream_d65">Neutral D65 (6500K)</string>
+    <string name="settings_wiz_stream_cozy">Cozy Dim (2200K)</string>
+    <string name="settings_wiz_stream_vivid">Vivid Bright (6000K)</string>
+    <string name="settings_wiz_stream_off">Off (Dark Cinema)</string>
+
+    <!-- Gaming Presets -->
+    <string name="settings_wiz_preset_eye_first">Adaptive Eye-First</string>
+    <string name="settings_wiz_preset_xbox_green">Xbox Emerald Green</string>
+    <string name="settings_wiz_preset_cyberpunk_purple">Cyberpunk Purple</string>
+    <string name="settings_wiz_preset_d65_neutral">Neutral D65 (6500K)</string>
+
+    <!-- Brightness Levels -->
+    <string name="settings_wiz_bright_100">100% (Maximum)</string>
+    <string name="settings_wiz_bright_80">80% (Default)</string>
+    <string name="settings_wiz_bright_60">60% (Medium)</string>
+    <string name="settings_wiz_bright_40">40% (Dim)</string>
+</resources>

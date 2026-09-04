@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_midnight"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/screen_padding_horizontal"
+    android:paddingTop="@dimen/screen_padding_vertical"
+    android:paddingEnd="@dimen/screen_padding_horizontal"
+    android:paddingBottom="@dimen/screen_padding_vertical">
+
+    <!-- LEFT SIDEBAR: Search (Top) and Discover (Bottom) -->
+    <ScrollView
+        android:id="@+id/sidebarScrollView"
+        android:layout_width="290dp"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ================= SEARCH BLOCK ================= -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.08"
+                android:text="@string/search_title"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Search EditText -->
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_search_field"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:nextFocusRight="@id/rvResults"
+                android:nextFocusDown="@id/btnSearchFilterActive"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:singleLine="true"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_muted"
+                android:textSize="14sp" />
+
+            <!-- Search Filter: Only Active Subscriptions -->
+            <LinearLayout
+                android:id="@+id/btnSearchFilterActive"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filter_toggle"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:nextFocusRight="@id/rvResults"
+                android:nextFocusUp="@id/etSearch"
+                android:nextFocusDown="@id/chipDiscoverActive"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <ImageView
+                    android:id="@+id/ivSearchFilterCheck"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/text_muted" />
+
+                <TextView
+                    android:id="@+id/tvSearchFilterLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_filter_included"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- ================= DIVIDER ================= -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="12dp"
+                android:background="#25FFFFFF" />
+
+            <!-- ================= DISCOVER BLOCK ================= -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.08"
+                android:text="@string/search_section_discover"
+                android:textColor="@color/accent"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- Discover Scope: Active vs Other Subscriptions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipDiscoverActive"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/btnSearchFilterActive"
+                    android:nextFocusRight="@id/chipDiscoverOther"
+                    android:nextFocusDown="@id/chipPopular"
+                    android:text="@string/search_scope_active" />
+
+                <TextView
+                    android:id="@+id/chipDiscoverOther"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/btnSearchFilterActive"
+                    android:nextFocusLeft="@id/chipDiscoverActive"
+                    android:nextFocusRight="@id/rvResults"
+                    android:nextFocusDown="@id/chipTopRated"
+                    android:text="@string/search_scope_all" />
+            </LinearLayout>
+
+            <!-- Sort Chips Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipPopular"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipDiscoverActive"
+                    android:nextFocusRight="@id/chipTopRated"
+                    android:nextFocusDown="@id/chipMovies"
+                    android:text="@string/search_sort_popular" />
+
+                <TextView
+                    android:id="@+id/chipTopRated"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipDiscoverActive"
+                    android:nextFocusLeft="@id/chipPopular"
+                    android:nextFocusRight="@id/chipNew"
+                    android:nextFocusDown="@id/chipMovies"
+                    android:text="@string/search_sort_top" />
+
+                <TextView
+                    android:id="@+id/chipNew"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipDiscoverOther"
+                    android:nextFocusLeft="@id/chipTopRated"
+                    android:nextFocusRight="@id/rvResults"
+                    android:nextFocusDown="@id/chipTv"
+                    android:text="@string/search_sort_new" />
+            </LinearLayout>
+
+            <!-- Format Type Chips Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipMovies"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipPopular"
+                    android:nextFocusRight="@id/chipTv"
+                    android:nextFocusDown="@id/chipSciFi"
+                    android:text="@string/search_type_movies" />
+
+                <TextView
+                    android:id="@+id/chipTv"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipNew"
+                    android:nextFocusLeft="@id/chipMovies"
+                    android:nextFocusRight="@id/rvResults"
+                    android:nextFocusDown="@id/chipComedy"
+                    android:text="@string/search_type_tv" />
+            </LinearLayout>
+
+            <!-- Genre Row 1: Sci-Fi, Action, Comedy -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipSciFi"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipMovies"
+                    android:nextFocusRight="@id/chipAction"
+                    android:nextFocusDown="@id/chipDrama"
+                    android:text="@string/search_genre_scifi" />
+
+                <TextView
+                    android:id="@+id/chipAction"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipMovies"
+                    android:nextFocusLeft="@id/chipSciFi"
+                    android:nextFocusRight="@id/chipComedy"
+                    android:nextFocusDown="@id/chipThriller"
+                    android:text="@string/search_genre_action" />
+
+                <TextView
+                    android:id="@+id/chipComedy"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipTv"
+                    android:nextFocusLeft="@id/chipAction"
+                    android:nextFocusRight="@id/rvResults"
+                    android:nextFocusDown="@id/chipAnimation"
+                    android:text="@string/search_genre_comedy" />
+            </LinearLayout>
+
+            <!-- Genre Row 2: Drama, Thriller, Animation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipDrama"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipSciFi"
+                    android:nextFocusRight="@id/chipThriller"
+                    android:nextFocusDown="@id/chipHorror"
+                    android:text="@string/search_genre_drama" />
+
+                <TextView
+                    android:id="@+id/chipThriller"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipAction"
+                    android:nextFocusLeft="@id/chipDrama"
+                    android:nextFocusRight="@id/chipAnimation"
+                    android:nextFocusDown="@id/chipDoc"
+                    android:text="@string/search_genre_thriller" />
+
+                <TextView
+                    android:id="@+id/chipAnimation"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipComedy"
+                    android:nextFocusLeft="@id/chipThriller"
+                    android:nextFocusRight="@id/rvResults"
+                    android:nextFocusDown="@id/chipCrime"
+                    android:text="@string/search_genre_animation" />
+            </LinearLayout>
+
+            <!-- Genre Row 3: Horror, Doc, Crime -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipHorror"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipDrama"
+                    android:nextFocusRight="@id/chipDoc"
+                    android:text="@string/search_genre_horror" />
+
+                <TextView
+                    android:id="@+id/chipDoc"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipThriller"
+                    android:nextFocusLeft="@id/chipHorror"
+                    android:nextFocusRight="@id/chipCrime"
+                    android:text="@string/search_genre_doc" />
+
+                <TextView
+                    android:id="@+id/chipCrime"
+                    style="@style/SearchChip"
+                    android:nextFocusUp="@id/chipAnimation"
+                    android:nextFocusLeft="@id/chipDoc"
+                    android:nextFocusRight="@id/rvResults"
+                    android:text="@string/search_genre_crime" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- RIGHT CONTENT: Media Posters Grid -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="24dp"
+            tools:listitem="@layout/item_search_result" />
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search_empty"
+            android:textColor="@color/text_muted"
+            android:textSize="16sp" />
+    </FrameLayout>
+
+</LinearLayout>
