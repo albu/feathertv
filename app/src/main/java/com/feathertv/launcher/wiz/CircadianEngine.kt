@@ -17,12 +17,12 @@ data class CircadianSetting(
  *
  * Accounts for seasonal day-length variance by calculating solar elevation angle (α)
  * and mapping it to scientifically optimal bias lighting (calibrated for diffuse wall bounce):
- * - Full Daylight (α > 5°): Reference D65 (6500K @ 80%) to overcome ambient daylight and boost LCD contrast.
- * - Twilight / Sunset (-6° <= α <= 5°): Smooth transition 6500K -> 3200K, 80% -> 45% dimming.
- * - Nautical / Astronomical Dusk (-18° <= α < -6°): Smooth transition 3200K -> 2400K, 45% -> 30% dimming.
+ * - Full Daylight (α > 5°): Reference D65 (6500K @ 85%) to overcome ambient daylight and boost LCD contrast.
+ * - Twilight / Sunset (-6° <= α <= 5°): Smooth transition 6500K -> 3500K, 85% -> 60% dimming.
+ * - Nautical / Astronomical Dusk (-18° <= α < -6°): Smooth transition 3500K -> 2600K, 60% -> 48% dimming.
  * - Deep Night (α < -18°):
- *   - Evening (before 23:00): Warm 2400K @ 30%.
- *   - Late Night (23:00 - 06:00): Melatonin-protective ultra-warm 2200K @ 18%.
+ *   - Evening (before 23:00): Warm 2600K @ 48%.
+ *   - Late Night (23:00 - 06:00): Melatonin-protective ultra-warm 2200K @ 32%.
  */
 object CircadianEngine {
 
@@ -36,30 +36,30 @@ object CircadianEngine {
         val (temp, dimming) = when {
             elevation > 5.0 -> {
                 // Daylight: Crisp D65 bias with enough power to overcome ambient diffuse room light
-                6500 to 80
+                6500 to 85
             }
             elevation >= -6.0 -> {
-                // Civil Twilight / Sunset (+5° down to -6°): smooth transition 6500K -> 3200K, 80% -> 45%
+                // Civil Twilight / Sunset (+5° down to -6°): smooth transition 6500K -> 3500K, 85% -> 60%
                 val factor = (elevation - (-6.0)) / (5.0 - (-6.0))
-                val k = (3200 + (6500 - 3200) * factor).toInt()
-                val d = (45 + (80 - 45) * factor).toInt()
+                val k = (3500 + (6500 - 3500) * factor).toInt()
+                val d = (60 + (85 - 60) * factor).toInt()
                 k to d
             }
             elevation >= -18.0 -> {
-                // Dusk / Evening (-6° down to -18°): smooth transition 3200K -> 2400K, 45% -> 30%
+                // Dusk / Evening (-6° down to -18°): smooth transition 3500K -> 2600K, 60% -> 48%
                 val factor = (elevation - (-18.0)) / ((-6.0) - (-18.0))
-                val k = (2400 + (3200 - 2400) * factor).toInt()
-                val d = (30 + (45 - 30) * factor).toInt()
+                val k = (2600 + (3500 - 2600) * factor).toInt()
+                val d = (48 + (60 - 48) * factor).toInt()
                 k to d
             }
             else -> {
                 // Deep Night:
                 if (localHour >= 23.0 || localHour < 6.0) {
-                    // Late Night Bedtime: 2200K warm candle glow @ 18% (clearly visible yet zero blue light)
-                    2200 to 18
+                    // Late Night Bedtime: 2200K warm candle glow @ 32% (comfortably visible yet zero blue light)
+                    2200 to 32
                 } else {
-                    // Evening Cinema: 2400K @ 30%
-                    2400 to 30
+                    // Evening Cinema: 2600K @ 48%
+                    2600 to 48
                 }
             }
         }

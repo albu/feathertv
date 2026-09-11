@@ -42,6 +42,23 @@ listed at the end (which only re-enable what the debloat script disabled).
    adb shell cmd wifi forget-network <stale-id>
    ```
 
+5. **Wi-Fi is an internal USB dongle (MediaTek MT7663BU).**
+   `wlan0` is an internal USB 2.0 device on `Mstar-ehci-3/usb3/3-1` (kernel modules
+   `wlan_mt7663_usb` + `btmtk_usb`). Detected at boot via `/vendor/bin/wlan_dongle_detect`.
+   - **Why warm restart doesn't fix a wake freeze:** A soft/warm reboot does not
+     cut power to the internal USB VBUS rail. If the MT7663BU firmware or USB endpoint
+     wedges during standby (WOWL sleep), a warm reboot boots with the chip still
+     hung, so `wlan0` never appears ("Wi-Fi not available"). A full power pull or
+     watchdog reset cycles the bus power and restores the chip.
+   - **MAC Address Randomization:** By default, Android enables randomized MAC
+     (`macRandomizationSetting: 1`). Waking up triggers an `INTERFACE_DISABLED` ->
+     `MAC_CHANGE` sequence that stresses the MTK USB firmware. Disabling it (Settings ->
+     Network & Internet -> <network> -> Privacy -> Use device MAC) eliminates this churn.
+   - **DFS 5GHz Channel (e.g. Ch 52):** DFS channels require passive radar listening
+     before transmitting in EU (`FI`). During wake, DFS delays can cause association
+     timeouts. Setting the router's 5GHz radio to a non-DFS channel (36, 40, 44, 48)
+     allows instantaneous active probing on wake.
+
 ## After the next reboot — capture this
 
 ```bash

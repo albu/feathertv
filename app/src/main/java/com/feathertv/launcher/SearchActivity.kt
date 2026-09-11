@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.feathertv.launcher.data.AppPreferences
 import com.feathertv.launcher.data.AppRepository
+import com.feathertv.launcher.data.MemoryOptimizer
 import com.feathertv.launcher.data.PosterLoader
 import com.feathertv.launcher.data.Providers
 import com.feathertv.launcher.data.SearchResult
@@ -88,6 +89,11 @@ class SearchActivity : AppCompatActivity() {
 
         updateUiStates()
         runDiscover(1)
+
+        // Free background media apps (Netflix, Prime, Kinopoisk, etc.) to give Search clean RAM headroom
+        lifecycleScope.launch(Dispatchers.Default) {
+            MemoryOptimizer.optimize(applicationContext)
+        }
     }
 
     private fun setupSearchBlock() {
@@ -271,6 +277,7 @@ class SearchActivity : AppCompatActivity() {
         updateUiStates()
 
         if (page == 1) {
+            posterLoader.cancelAll()
             allResults.clear()
             visibleResults.clear()
             adapter.submit(emptyList(), canLoadMore = false)
@@ -329,6 +336,7 @@ class SearchActivity : AppCompatActivity() {
         debounceJob?.cancel()
         searchJob?.cancel()
         filterJob?.cancel()
+        posterLoader.cancelAll()
         isDiscoverMode = false
         currentQuery = query
         currentPage = 1
@@ -557,6 +565,11 @@ class SearchActivity : AppCompatActivity() {
         } catch (e: Exception) {
             repository.launchPackage(fallbackPackage)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        posterLoader.cancelAll()
     }
 
     override fun onDestroy() {

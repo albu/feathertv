@@ -17,6 +17,7 @@ object MemoryOptimizer {
         "com.netflix.ninja",                   // Netflix
         "ru.kinopoisk.tv",                     // Kinopoisk
         "com.amazon.amazonvideo.livingroom",   // Prime Video
+        "com.wbd.stream",                      // Max / HBO Max
         "com.yle.webtv",                       // YLE Areena
         "tv.wuaki.apptv"                       // Rakuten TV
     )

@@ -67,9 +67,9 @@ class SearchDetailDialog(
         binding.tvDetailRuntime.visibility = View.GONE
         binding.tvDetailGenres.text = if (result.mediaType == "tv") "TV Show" else "Movie"
 
-        posterLoader.load(result.posterUrl, binding.ivPoster)
+        posterLoader.load(result.posterUrl, binding.ivPoster, reqWidth = 300, reqHeight = 450)
         if (!result.backdropUrl.isNullOrBlank()) {
-            posterLoader.load(result.backdropUrl, binding.ivBackdrop)
+            posterLoader.load(result.backdropUrl, binding.ivBackdrop, reqWidth = 960, reqHeight = 540)
         }
     }
 
@@ -212,5 +212,11 @@ class SearchDetailDialog(
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
         return if (hours > 0) "${hours}h ${minutes}m" else "${minutes}m"
+    }
+
+    override fun onStop() {
+        super.onStop()
+        posterLoader.cancel(binding.ivPoster)
+        posterLoader.cancel(binding.ivBackdrop)
     }
 }

@@ -68,6 +68,13 @@ class SearchAdapter(
         }
     }
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder is ResultViewHolder) {
+            posterLoader.cancel(holder.binding.ivPoster)
+        }
+    }
+
     inner class FooterViewHolder(private val binding: ItemSearchFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -86,7 +93,7 @@ class SearchAdapter(
         }
     }
 
-    inner class ResultViewHolder(private val binding: ItemSearchResultBinding) :
+    inner class ResultViewHolder(val binding: ItemSearchResultBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -115,7 +122,7 @@ class SearchAdapter(
             } else {
                 binding.tvRating.visibility = View.GONE
             }
-            posterLoader.load(result.posterUrl, binding.ivPoster)
+            posterLoader.load(result.posterUrl, binding.ivPoster, reqWidth = 200, reqHeight = 300)
         }
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import com.feathertv.launcher.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
@@ -26,11 +27,12 @@ object TmdbClient {
     private const val BASE = "https://api.themoviedb.org/3"
     private const val POSTER_BASE = "https://image.tmdb.org/t/p/w185"
     private const val DETAIL_POSTER_BASE = "https://image.tmdb.org/t/p/w342"
-    private const val BACKDROP_BASE = "https://image.tmdb.org/t/p/w1280"
+    private const val BACKDROP_BASE = "https://image.tmdb.org/t/p/w780"
     private const val TIMEOUT_MS = 8000
     private const val MAX_RESULTS = 18
 
     private val httpSemaphore = Semaphore(4)
+    private val imageSemaphore = Semaphore(2)
     private val requestTimestamps = ArrayDeque<Long>()
     private val rateLimitLock = Any()
     private const val MAX_REQUESTS_PER_10S = 35
@@ -337,25 +339,55 @@ object TmdbClient {
         return names
     }
 
-    suspend fun posterBitmap(url: String): Bitmap? = withContext(Dispatchers.IO) {
-        var conn: HttpURLConnection? = null
-        try {
-            conn = URL(url).openConnection() as HttpURLConnection
-            conn.connectTimeout = TIMEOUT_MS
-            conn.readTimeout = TIMEOUT_MS
-            conn.setRequestProperty("User-Agent", "yb-launcher")
-            conn.connect()
-            if (conn.responseCode != HttpURLConnection.HTTP_OK) return@withContext null
-            val bytes = conn.inputStream.use { it.readBytes() }
-            val options = BitmapFactory.Options().apply {
-                inPreferredConfig = Bitmap.Config.RGB_565
+    suspend fun posterBitmap(
+        url: String,
+        reqWidth: Int = 0,
+        reqHeight: Int = 0
+    ): Bitmap? = withContext(Dispatchers.IO) {
+        imageSemaphore.withPermit {
+            coroutineContext.ensureActive()
+            var conn: HttpURLConnection? = null
+            try {
+                conn = URL(url).openConnection() as HttpURLConnection
+                conn.connectTimeout = TIMEOUT_MS
+                conn.readTimeout = TIMEOUT_MS
+                conn.setRequestProperty("User-Agent", "feathertv-launcher")
+                conn.connect()
+                if (conn.responseCode != HttpURLConnection.HTTP_OK) return@withPermit null
+                val bytes = conn.inputStream.use { it.readBytes() }
+                coroutineContext.ensureActive()
+
+                val options = BitmapFactory.Options().apply {
+                    inPreferredConfig = Bitmap.Config.RGB_565
+                    if (reqWidth > 0 && reqHeight > 0) {
+                        inJustDecodeBounds = true
+                        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, this)
+                        inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+                        inJustDecodeBounds = false
+                    }
+                }
+                coroutineContext.ensureActive()
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+            } catch (e: Exception) {
+                null
+            } finally {
+                conn?.disconnect()
             }
-            BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
-        } catch (e: Exception) {
-            null
-        } finally {
-            conn?.disconnect()
         }
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        val height = options.outHeight
+        val width = options.outWidth
+        var inSampleSize = 1
+        if (height > reqHeight || width > reqWidth) {
+            val halfHeight = height / 2
+            val halfWidth = width / 2
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize
     }
 
     private suspend fun getJson(url: String): JSONObject = httpSemaphore.withPermit {
