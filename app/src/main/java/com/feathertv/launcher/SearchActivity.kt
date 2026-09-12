@@ -542,6 +542,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun openProvider(result: SearchResult, pkg: String) {
+        MemoryOptimizer.onAppLaunched(applicationContext, pkg)
         if (pkg == Providers.APPLE_PACKAGE) {
             val uri = Uri.parse("https://tv.apple.com/search?searchParam=" + Uri.encode(result.title))
             launchDeepLink(uri, Providers.APPLE_PACKAGE, pkg)

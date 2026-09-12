@@ -51,10 +51,13 @@ fi
 
 # Idle media / background apps that do not need to run until opened.
 MEDIA_APPS=(
+    "com.google.android.youtube.tv"       # YouTube
+    "com.amazon.amazonvideo.livingroom"   # Prime Video
     "com.apple.atve.androidtv.appletv"    # Apple TV
     "com.netflix.ninja"                   # Netflix
     "ru.kinopoisk.tv"                     # Kinopoisk
-    "com.amazon.amazonvideo.livingroom"   # Prime Video
+    "com.wbd.stream"                      # Max / HBO Max
+    "com.disney.disneyplus"               # Disney+
     "com.yle.webtv"                       # YLE Areena
     "tv.wuaki.apptv"                      # Rakuten TV
 )

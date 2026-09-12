@@ -43,6 +43,7 @@ class AppPreferences(context: Context) {
         private const val KEY_WIZ_GAMING_PRESET = "wiz_gaming_preset"
         private const val KEY_WIZ_BRIGHTNESS = "wiz_brightness_scale"
         private const val KEY_WIZ_IP = "wiz_target_ip"
+        private const val KEY_RECENT_MEDIA_APPS = "recent_media_apps"
 
         const val DEFAULT_COLUMNS = 5
         val DEFAULT_SEARCH_REGION: String get() = com.feathertv.launcher.BuildConfig.DEFAULT_SEARCH_REGION
@@ -180,4 +181,19 @@ class AppPreferences(context: Context) {
     var wizTargetIp: String
         get() = prefs.getString(KEY_WIZ_IP, DEFAULT_WIZ_IP) ?: DEFAULT_WIZ_IP
         set(value) = prefs.edit().putString(KEY_WIZ_IP, value).apply()
+
+    fun getRecentMediaApps(): List<String> {
+        val raw = prefs.getString(KEY_RECENT_MEDIA_APPS, null) ?: return emptyList()
+        return try {
+            val arr = JSONArray(raw)
+            List(arr.length()) { arr.getString(it) }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    fun setRecentMediaApps(apps: List<String>) {
+        val arr = JSONArray(apps)
+        prefs.edit().putString(KEY_RECENT_MEDIA_APPS, arr.toString()).apply()
+    }
 }

@@ -22,6 +22,7 @@ import com.feathertv.launcher.data.AppInfo
 import com.feathertv.launcher.data.AppPreferences
 import com.feathertv.launcher.data.AppRepository
 import com.feathertv.launcher.data.GradientBackground
+import com.feathertv.launcher.data.MemoryOptimizer
 import com.feathertv.launcher.databinding.ActivityMainBinding
 import com.feathertv.launcher.ui.AppAdapter
 import com.feathertv.launcher.ui.AppOptionDialog
@@ -73,6 +74,9 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         reloadApps()
         LauncherApp.ledController.onLauncherResumed()
+        lifecycleScope.launch(Dispatchers.Default) {
+            MemoryOptimizer.trimToRecentMediaApps(applicationContext)
+        }
     }
 
     override fun onPause() {
@@ -238,6 +242,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchApp(app: AppInfo) {
+        // Enforce 2-app retention limit: evict older media apps before starting
+        MemoryOptimizer.onAppLaunched(applicationContext, app.packageName)
+
         val success = repository.launchApp(app)
         if (!success) {
             Toast.makeText(this, "Failed to launch ${app.label}", Toast.LENGTH_SHORT).show()
